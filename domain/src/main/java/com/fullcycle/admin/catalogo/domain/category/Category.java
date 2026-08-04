@@ -2,10 +2,11 @@ package com.fullcycle.admin.catalogo.domain.category;
 
 
 import com.fullcycle.admin.catalogo.domain.AggregateRoot;
-
+import com.fullcycle.admin.catalogo.domain.validation.ValidationHandler;
+import com.fullcycle.admin.catalogo.domain.validation.ThrowingValidationHandler;
 import java.time.Instant;
 
-public class Category extends AggregateRoot{
+public class Category extends AggregateRoot<CategoryID>{
     private String id;
     private String name;
     private String description;
@@ -24,7 +25,7 @@ public class Category extends AggregateRoot{
             final Instant aDeleteDate
     ) {
         super(anID);
-        this.id = id;
+        this.id = anID.getValue();
         this.name = aName;
         this.description = aDescription;
         this.active = isActive;
@@ -38,6 +39,18 @@ public class Category extends AggregateRoot{
         final var id = CategoryID.unique();
         final var now = Instant.now();
         return new Category(id, aName, aDescription, isActive, now, now, null);
+    }
+
+    // Os validadores tem os costume de mudar em geral
+    @Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();;
+    }
+
+    public void validate() {
+        final var handler = ThrowingValidationHandler.create();
+        validate(handler);
+        handler.validate();
     }
 
     public String CategoryId() {
@@ -67,4 +80,6 @@ public class Category extends AggregateRoot{
     public Instant getDeletedAt() {
         return deletedAt;
     }
+
+
 }
