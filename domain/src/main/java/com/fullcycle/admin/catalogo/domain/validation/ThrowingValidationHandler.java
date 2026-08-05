@@ -1,19 +1,20 @@
 package com.fullcycle.admin.catalogo.domain.validation;
 
 import com.fullcycle.admin.catalogo.domain.exceptions.DomainException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ThrowingValidationHandler implements ValidationHandler {
 
-    private final List<Error> errors;
+    private final List<Error> errors = new ArrayList<>();
 
-    private ThrowingValidationHandler(final List<Error> errors) {
-        this.errors = errors;
+    public ThrowingValidationHandler(){
+
     }
 
     public static ThrowingValidationHandler create() {
-        return new ThrowingValidationHandler(new ArrayList<>());
+        return new ThrowingValidationHandler();
     }
 
     @Override

@@ -4,7 +4,12 @@ import com.fullcycle.admin.catalogo.domain.category.Category;
 
 
 public class UseCase {
-    public Category execute(){
-        return new Category();
+
+    public Category execute() {
+        return Category.newCategory(
+                "Filmes",
+                "Categoria de filmes",
+                true
+        );
     }
 }

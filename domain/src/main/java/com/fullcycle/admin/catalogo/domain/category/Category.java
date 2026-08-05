@@ -6,8 +6,8 @@ import com.fullcycle.admin.catalogo.domain.validation.ValidationHandler;
 import com.fullcycle.admin.catalogo.domain.validation.ThrowingValidationHandler;
 import java.time.Instant;
 
-public class Category extends AggregateRoot<CategoryID>{
-    private String id;
+public class Category extends AggregateRoot<CategoryID> {
+
     private String name;
     private String description;
     private boolean active;
@@ -15,17 +15,16 @@ public class Category extends AggregateRoot<CategoryID>{
     private Instant updatedAt;
     private Instant deletedAt;
 
-    private Category (
+    public Category(
             final CategoryID anID,
             final String aName,
             final String aDescription,
             final boolean isActive,
             final Instant aCreationDate,
             final Instant aUpdateDate,
-            final Instant aDeleteDate
-    ) {
+            final Instant aDeleteDate,
+            Object o) {
         super(anID);
-        this.id = anID.getValue();
         this.name = aName;
         this.description = aDescription;
         this.active = isActive;
@@ -34,11 +33,15 @@ public class Category extends AggregateRoot<CategoryID>{
         this.deletedAt = aDeleteDate;
     }
 
-    public static Category newCategory(final String aName, final String aDescription, final boolean isActive) {
+    public static Category newCategory
+            (final String aName,
+             final String aDescription,
+             final boolean isActive) {
 
         final var id = CategoryID.unique();
         final var now = Instant.now();
-        return new Category(id, aName, aDescription, isActive, now, now, null);
+        final var deletdAt = isActive ? null : now;
+        return new Category(id, aName, aDescription, isActive, now, now, deletdAt, null);
     }
 
     // Os validadores tem os costume de mudar em geral
@@ -53,9 +56,6 @@ public class Category extends AggregateRoot<CategoryID>{
         handler.validate();
     }
 
-    public String CategoryId() {
-        return id;
-    }
 
     public String getName() {
         return name;
