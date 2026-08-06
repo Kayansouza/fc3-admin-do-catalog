@@ -97,6 +97,8 @@ public class CategoryTest {
 
         Assertions.assertDoesNotThrow(
                 () -> actualCategory.validate(new ThrowingValidationHandler())
+
+
         );
     }
 
@@ -116,6 +118,47 @@ public class CategoryTest {
         Assertions.assertDoesNotThrow(
                 () -> actualCategory.validate(new ThrowingValidationHandler())
         );
+    }
+
+
+    @Test
+
+    public void givenAValidadCategory_whenCallUpdate_themReturnCategoryUpdated(){
+
+        final String expectedName = "Filmes";
+        final String expectedDescription = "Categoria de filmes";
+        final var expectedIsActive = true;
+
+        final var actualCategory = Category.newCategory(
+                expectedName,
+                expectedDescription,
+                expectedIsActive
+        );
+
+        Assertions.assertDoesNotThrow(
+                () -> actualCategory.validate(new ThrowingValidationHandler())
+
+        );
+
+    }
+
+    @Test
+    public void givenAValidadCategory_whenCallUpdateToWithInvalidParams_themReturnCategoryUpdated() {
+        final String expectedName = null;
+        final String expectedDescription = "Categoria de filmes";
+        final var expectedIsActive = true;
+
+        final var actualCategory = Category.newCategory(
+                expectedName,
+                expectedDescription,
+                expectedIsActive
+        );
+
+        Assertions.assertDoesNotThrow(
+                () -> actualCategory.validate(new ThrowingValidationHandler())
+
+        );
+
     }
 
 }
